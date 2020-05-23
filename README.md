@@ -1,2 +1,3 @@
 # guybrush
-A chatbot.
+
+Guybrush is a chatbot integrated with Telegram. Use this at your own peril.
