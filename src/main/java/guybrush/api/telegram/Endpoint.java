@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Martín Straus <martinstraus@gmail.com>
  */
-@RestController
+@RestController("TelegramEndpoint")
 @RequestMapping("/telegram")
 public class Endpoint {
     
