@@ -20,7 +20,7 @@ public class Endpoint {
         this.callback = callback;
     }
     
-    @PostMapping("/update")
+    @PostMapping("/updates")
     public void update(@RequestBody Update update) {
         callback.updateReceived(update.getUpdate_id());
     }

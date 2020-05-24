@@ -48,7 +48,7 @@ public class EndpointTest {
         var random = new Random();
         var updateId = random.nextInt();
         var update = String.format(UPDATE_TEMPLATE, updateId);
-        mockMvc.perform(post("/telegram/update").content(update));
+        mockMvc.perform(post("/telegram/updates").content(update));
         verify(callback, times(1)).updateReceived(updateId);
     }
 }
