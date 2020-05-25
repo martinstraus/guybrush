@@ -1,4 +1,4 @@
-package guybrush.api.telegram;
+package guybrush.telegram;
 
 /**
  *
@@ -8,8 +8,9 @@ package guybrush.api.telegram;
 @lombok.Data
 public class Message {
 
-    private Integer message_id;
+    private int message_id;
     private User from;
     private int date;
+    private Chat chat;
 
 }

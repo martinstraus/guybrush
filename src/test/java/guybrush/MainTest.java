@@ -1,4 +1,4 @@
-package guybrush.api;
+package guybrush;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

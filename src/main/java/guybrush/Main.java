@@ -1,4 +1,4 @@
-package guybrush.api;
+package guybrush;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

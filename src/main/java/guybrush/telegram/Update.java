@@ -1,4 +1,4 @@
-package guybrush.api.telegram;
+package guybrush.telegram;
 
 /**
  *
