@@ -26,5 +26,9 @@ public class Bot {
     public void dailyEvent() {
         telegram.send(username, "¡Buen día!");
     }
+    
+    public void send(String message) {
+        telegram.send(username, message);
+    }
 
 }

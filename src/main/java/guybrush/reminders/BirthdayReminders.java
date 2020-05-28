@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
  * @author Martín Straus <martinstraus@gmail.com>
  */
 @Component
-public class DefaultReminders implements Reminders {
+public class BirthdayReminders implements Reminders {
     private final Contacts contacts;
 
-    public DefaultReminders(Contacts contacts) {
+    public BirthdayReminders(Contacts contacts) {
         this.contacts = contacts;
     }
     
