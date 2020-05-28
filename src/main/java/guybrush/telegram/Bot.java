@@ -22,7 +22,7 @@ public class Bot {
         this.username = username;
     }
 
-    @Scheduled(cron = "0 9 * * * 1-5")
+    @Scheduled(cron = "0 0 9 * * 1-5")
     public void dailyEvent() {
         telegram.send(username, "¡Buen día!");
     }
