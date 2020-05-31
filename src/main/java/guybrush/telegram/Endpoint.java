@@ -40,7 +40,14 @@ public class Endpoint {
         message.process(new Message.Callback() {
             @Override
             public void process(Chat chat, String message, Optional<User> from) {
-                bot.send(from.get(), message);
+                bot.send(
+                        from.get(),
+                        String.format(
+                                "Received message \"%s\" from %s",
+                                message,
+                                from.get().getUsername()
+                        )
+                );
             }
         });
     }
