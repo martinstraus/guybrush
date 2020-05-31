@@ -5,6 +5,7 @@ import static guybrush.collections.Sets.*;
 import guybrush.reminders.Reminder;
 import guybrush.reminders.Reminders;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import static java.util.stream.Collectors.joining;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,11 +31,18 @@ public class Endpoint {
     }
 
     @PostMapping("/updates")
-    public void update(@RequestBody String raw, @RequestBody Update update) {
-        if (update.getMessage() != null) {
-            var chat = update.getMessage().getChat();
+    public void update(@RequestBody Update update) {
+        if (update.getMessage() == null) {
+            return;
         }
-
+        var message = update.getMessage();
+        var chat = message.getChat();
+        message.process(new Message.Callback() {
+            @Override
+            public void process(Chat chat, String message, Optional<User> from) {
+                bot.send(from.get(), message);
+            }
+        });
     }
 
     @PostMapping("/reminders/process")

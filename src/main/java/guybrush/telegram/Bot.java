@@ -15,7 +15,7 @@ public class Bot {
     private final String username;
 
     public Bot(
-            Telegram telegram, 
+            Telegram telegram,
             @Value("${guybrush.telegram.recipient_username}") String username
     ) {
         this.telegram = telegram;
@@ -26,9 +26,12 @@ public class Bot {
     public void dailyEvent() {
         telegram.send(username, "¡Buen día!");
     }
-    
+
     public void send(String message) {
         telegram.send(username, message);
     }
 
+    public void send(User to, String message) {
+        telegram.send(to.getUsername(), message);
+    }
 }
