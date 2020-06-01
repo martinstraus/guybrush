@@ -11,3 +11,10 @@ create table monthly_reminders (
     message varchar(100) not null,
     constraint monthly_reminders_pk primary key (id)
 );
+
+create table telegram_updates (
+    update_id integer not null,
+    reception_timestamp timestamp not null,
+    update_payload jsonb not null,
+    constraint telegram_updates_pk primary key (update_id)
+);

@@ -45,6 +45,15 @@ public class Queries {
         }
     }
 
+    public static void insert(DataSource dataSource, String statement, Object... parameters) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement insert = connection.prepareStatement(statement)) {
+                setParameters(insert, parameters);
+                insert.executeUpdate();
+            }
+        }
+    }
+
     private static void setParameters(PreparedStatement statement, Object... parameters) throws SQLException {
         if (parameters != null) {
             for (int i = 0; i < parameters.length; i++) {

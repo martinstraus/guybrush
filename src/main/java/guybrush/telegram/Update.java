@@ -7,7 +7,7 @@ package guybrush.telegram;
  */
 @lombok.Data
 public class Update {
-
+    
     private Integer update_id;
     private Message message;
     private Message edited_message;
