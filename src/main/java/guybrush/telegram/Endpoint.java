@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import guybrush.collections.Reductions;
 import static guybrush.collections.Sets.*;
+import guybrush.nlp.Intention;
+import guybrush.nlp.NaturalLanguageProcessor;
 import guybrush.reminders.Reminder;
 import guybrush.reminders.Reminders;
 import java.util.List;
@@ -29,12 +31,15 @@ public class Endpoint {
     private final Bot bot;
     private final Updates updates;
     private final ObjectMapper objectMapper;
+    private final NaturalLanguageProcessor nlp;
 
-    public Endpoint(List<Reminders> reminders, Bot bot, Updates updates, ObjectMapper objectMapper) {
+    public Endpoint(List<Reminders> reminders, Bot bot, Updates updates, ObjectMapper objectMapper,
+        NaturalLanguageProcessor nlp) {
         this.reminders = reminders;
         this.bot = bot;
         this.updates = updates;
         this.objectMapper = objectMapper;
+        this.nlp = nlp;
     }
 
     @Transactional
@@ -50,14 +55,22 @@ public class Endpoint {
         message.process(new Message.Callback() {
             @Override
             public void process(Chat chat, String message, Optional<User> from) {
-                bot.send(
-                    from.get(),
-                    String.format(
-                        "Received message \"%s\" from %s",
-                        message,
-                        from.get().getUsername()
-                    )
-                );
+                var intention = nlp.interpret(message);
+                switch (intention) {
+                    case SALUTATION:
+                        bot.send(from.get(), "¡Hola!");
+                        break;
+                    case UNKNOWN:
+                    default:
+                        bot.send(
+                            from.get(),
+                            String.format(
+                                "Received message \"%s\" from %s",
+                                message,
+                                from.get().getUsername()
+                            )
+                        );
+                }
             }
         });
     }
