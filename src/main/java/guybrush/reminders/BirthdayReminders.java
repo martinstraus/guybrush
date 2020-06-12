@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @author Martín Straus <martinstraus@gmail.com>
  */
 @Component
-public class BirthdayReminders implements Reminders {
+public class BirthdayReminders implements RemindersSource {
     private final Contacts contacts;
 
     public BirthdayReminders(Contacts contacts) {

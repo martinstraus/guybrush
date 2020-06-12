@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @author Martín Straus <martinstraus@gmail.com>
  */
 @Component
-public class MonthlyReminders implements Reminders {
+public class MonthlyReminders implements RemindersSource {
 
     private static final String SELECT_FOR_TODAY = "select *"
             + " from monthly_reminders"
