@@ -50,6 +50,9 @@ public class Endpoint {
                     case SALUTATION:
                         bot.send(from.get(), "¡Hola!");
                         break;
+                    case REMINDERS:
+                        bot.dailyEvent();
+                        break;
                     case UNKNOWN:
                     default:
                         bot.send(

@@ -11,17 +11,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultNLP implements NaturalLanguageProcessor {
 
-    private final Set<String> salutations = Set.of("hola", "buen día", "buenas noches");
-
     @Override
     public Intention interpret(String message) {
-        var isSalutation = !asList(message.split(" |¡|!|¿|\\?|\\.|;|,"))
+        return asList(Intention.values())
             .stream()
-            .map(String::toLowerCase)
-            .filter((s) -> salutations.contains(s))
-            .findAny()
-            .isEmpty();
-        return isSalutation ? Intention.SALUTATION : Intention.UNKNOWN;
+            .filter((intention) -> intention.matches(message))
+            .findFirst()
+            .orElse(Intention.UNKNOWN);
     }
 
 }
