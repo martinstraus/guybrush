@@ -5,18 +5,16 @@ create table contacts (
   CONSTRAINT contacts_pkey PRIMARY KEY (id)
 );
 
-create table monthly_reminders (
+create table date_reminders (
     id serial,
-    day_in_month smallint not null,
+    day_in_month smallint,
+    date date,
     message varchar(100) not null,
-    constraint monthly_reminders_pk primary key (id)
-);
-
-create table daily_reminders (
-    id serial,
-    date date not null,
-    message varchar(100) not null,
-    constraint daily_reminders_pk primary key (id)
+    constraint date_reminders_pk primary key (id),
+    constraint date_reminders_type_chk check (
+        (day_in_month is null and date is not null)
+        or (day_in_month is not null and date is null)
+    )
 );
 
 create table telegram_updates (

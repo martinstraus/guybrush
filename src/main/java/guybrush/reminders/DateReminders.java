@@ -13,24 +13,26 @@ import org.springframework.stereotype.Component;
  * @author Martín Straus <martinstraus@gmail.com>
  */
 @Component
-public class MonthlyReminders implements RemindersSource {
+public class DateReminders implements RemindersSource {
 
     private static final String SELECT_FOR_TODAY = "select *"
-            + " from monthly_reminders"
-            + " where day_in_month = ?";
+            + " from date_reminders"
+            + " where (date is null and day_in_month = ?) or (date = ? and day_in_month is null)";
     private final DataSource dataSource;
 
-    public MonthlyReminders(DataSource dataSource) {
+    public DateReminders(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @Override
     public Set<Reminder> forToday() {
+        var today = LocalDate.now();
         return Queries.selectSet(
                 dataSource,
                 SELECT_FOR_TODAY,
                 this::transformOne,
-                LocalDate.now().getDayOfMonth()
+                today.getDayOfMonth(),
+                today
         );
     }
 
