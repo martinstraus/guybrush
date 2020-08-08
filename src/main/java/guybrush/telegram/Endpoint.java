@@ -2,7 +2,7 @@ package guybrush.telegram;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import guybrush.nlp.NaturalLanguageProcessor;
+import guybrush.nlp.*;
 import java.util.Optional;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,30 +42,42 @@ public class Endpoint {
         updates.store(update.getUpdate_id(), payload);
         var message = update.getMessage();
         var chat = message.getChat();
-        message.process(new Message.Callback() {
+
+        message.process(messageCallback());
+    }
+
+    private Message.Callback messageCallback() {
+        return new Message.Callback() {
             @Override
             public void process(Chat chat, String message, Optional<User> from) {
+                var callback = intentionCallback(chat, message, from);
                 var intention = nlp.interpret(message);
-                switch (intention) {
-                    case SALUTATION:
-                        bot.send(from.get(), "¡Hola!");
-                        break;
-                    case REMINDERS:
-                        bot.dailyEvent();
-                        break;
-                    case UNKNOWN:
-                    default:
-                        bot.send(
-                            from.get(),
-                            String.format(
-                                "Received message \"%s\" from %s",
-                                message,
-                                from.get().getUsername()
-                            )
-                        );
-                }
+                intention.handle(callback);
             }
-        });
+        };
+    }
+
+    private Intention.Callback intentionCallback(Chat chat, String message, Optional<User> from) {
+        return new Intention.Callback() {
+            public void salutation() {
+                bot.send(from.get(), "¡Hola!");
+            }
+
+            public void reminders() {
+                bot.dailyEvent();
+            }
+
+            public void unknown() {
+                bot.send(
+                    from.get(),
+                    String.format(
+                        "Received message \"%s\" from %s",
+                        message,
+                        from.get().getUsername()
+                    )
+                );
+            }
+        };
     }
 
 }
