@@ -12,6 +12,13 @@ create table monthly_reminders (
     constraint monthly_reminders_pk primary key (id)
 );
 
+create table daily_reminders (
+    id serial,
+    date date not null,
+    message varchar(100) not null,
+    constraint daily_reminders_pk primary key (id)
+);
+
 create table telegram_updates (
     update_id integer not null,
     reception_timestamp timestamp not null,
