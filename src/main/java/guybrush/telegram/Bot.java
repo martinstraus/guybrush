@@ -29,18 +29,15 @@ public class Bot {
         this.username = username;
     }
 
-    @Scheduled(cron = "0 0 9 * * 1-5")
-    public void weekDayEvent() {
-        telegram.send(username, "¡Buen día!");
-    }
-
     @Scheduled(cron = "0 0 9 * * *")
     public void dailyEvent() {
         telegram.send(username, messages(reminders.forToday()));
     }
 
     private String messages(Set<Reminder> reminders) {
-        return reminders.stream().map(Reminder::message).collect(joining("\n"));
+        return reminders.isEmpty() 
+            ? "No hay recordatorios para hoy."
+            : reminders.stream().map(Reminder::message).collect(joining("\n"));
     }
 
     public void send(String message) {

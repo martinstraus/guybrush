@@ -68,14 +68,7 @@ public class Endpoint {
             }
 
             public void unknown() {
-                bot.send(
-                    from.get(),
-                    String.format(
-                        "Received message \"%s\" from %s",
-                        message,
-                        from.get().getUsername()
-                    )
-                );
+                bot.send(from.get(), "No te entiendo.");
             }
         };
     }
