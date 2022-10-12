@@ -1,0 +1,10 @@
+[Unit]
+Description=Guybrush bot service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /opt/guybrush/run.sh
+
+[Install]
+WantedBy=multi-user.target
