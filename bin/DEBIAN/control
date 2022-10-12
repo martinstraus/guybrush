@@ -1,0 +1,8 @@
+Package: guybrush
+Version: 0.1.0
+Section: base
+Priority: optional
+Architecture: amd64
+Depends:
+Maintainer: Martín Straus <martinstraus@gmail.com>
+Description: Guybrush - An asistant for Telegram

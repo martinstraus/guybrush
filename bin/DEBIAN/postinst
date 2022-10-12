@@ -1,0 +1,4 @@
+addgroup guybrush
+useradd --system --shell /bin/false -g guybrush guybrush
+systemctl enable /opt/guybrush/guybrush.service
+systemctl start guybrush

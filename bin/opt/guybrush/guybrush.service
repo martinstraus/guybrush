@@ -1,5 +1,5 @@
 [Unit]
-Description=Guybrush bot service
+Description=Guybrush - An asistant for Telegram
 After=network.target
 
 [Service]

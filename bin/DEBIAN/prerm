@@ -1,0 +1,7 @@
+service=guybrush
+
+systemctl --quiet is-active ${service} 
+if [ "$?" = "0" ]; then
+    systemctl stop ${service}
+    systemctl disable ${service}
+fi
