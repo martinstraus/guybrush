@@ -1,7 +1,6 @@
 package guybrush.nlp;
 
 import static java.util.Arrays.asList;
-import java.util.Set;
 import org.springframework.stereotype.Component;
 
 /**
