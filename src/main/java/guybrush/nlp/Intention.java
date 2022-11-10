@@ -1,5 +1,9 @@
 package guybrush.nlp;
 
+import guybrush.commands.Command;
+import guybrush.commands.QueryReminders;
+import guybrush.commands.Salutation;
+import guybrush.commands.Unknown;
 import static java.util.Arrays.asList;
 import java.util.Set;
 
@@ -21,8 +25,8 @@ public enum Intention {
         }
 
         @Override
-        public void handle(Callback callback) {
-            callback.salutation();
+        public Command command() {
+            return new Salutation();
         }
     },
     REMINDERS {
@@ -32,8 +36,8 @@ public enum Intention {
         }
 
         @Override
-        public void handle(Callback callback) {
-            callback.reminders();
+        public Command command() {
+            return new QueryReminders();
         }
     },
     UNKNOWN {
@@ -43,21 +47,12 @@ public enum Intention {
         }
 
         @Override
-        public void handle(Callback callback) {
-            callback.unknown();
+        public Command command() {
+            return new Unknown();
         }
     };
 
-    public static interface Callback {
-
-        void salutation();
-
-        void reminders();
-
-        void unknown();
-    }
-
     public abstract boolean matches(String message);
 
-    public abstract void handle(Callback callback);
+    public abstract Command command();
 }

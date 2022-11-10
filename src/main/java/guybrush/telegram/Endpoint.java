@@ -2,8 +2,11 @@ package guybrush.telegram;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import guybrush.commands.CommandContext;
 import guybrush.nlp.*;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,20 +21,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("TelegramEndpoint")
 @RequestMapping("/telegram")
 public class Endpoint {
-
+    
+    private static final Logger LOGGER = Logger.getLogger(Endpoint.class.getName());
+    
     private final Bot bot;
     private final Updates updates;
     private final ObjectMapper objectMapper;
     private final NaturalLanguageProcessor nlp;
-
-    public Endpoint(Bot bot, Updates updates, ObjectMapper objectMapper,
-        NaturalLanguageProcessor nlp) {
+    private final CommandContext commandContext;
+    
+    public Endpoint(Bot bot, Updates updates, ObjectMapper objectMapper, NaturalLanguageProcessor nlp,
+        CommandContext commandContext) {
         this.bot = bot;
         this.updates = updates;
         this.objectMapper = objectMapper;
         this.nlp = nlp;
+        this.commandContext = commandContext;
     }
-
+    
     @Transactional
     @PostMapping("/updates")
     public void update(@RequestBody String payload) throws JsonProcessingException {
@@ -39,38 +46,21 @@ public class Endpoint {
         if (update.getMessage() == null) {
             return;
         }
-        updates.store(update.getUpdate_id(), payload);
-        var message = update.getMessage();
-        var chat = message.getChat();
-
-        message.process(messageCallback());
+        try {
+            updates.store(update.getUpdate_id(), payload);
+        } catch (Throwable t) {
+            LOGGER.log(Level.SEVERE, String.format("Could not store update %1$d.", update.getUpdate_id()), t);
+        }
+        update.getMessage().process(messageCallback());
     }
-
+    
     private Message.Callback messageCallback() {
         return new Message.Callback() {
             @Override
             public void process(Chat chat, String message, Optional<User> from) {
-                var callback = intentionCallback(chat, message, from);
-                var intention = nlp.interpret(message);
-                intention.handle(callback);
+                nlp.interpret(message).command().execute(commandContext, from);
             }
         };
     }
-
-    private Intention.Callback intentionCallback(Chat chat, String message, Optional<User> from) {
-        return new Intention.Callback() {
-            public void salutation() {
-                bot.send(from.get(), "¡Hola!");
-            }
-
-            public void reminders() {
-                bot.dailyEvent();
-            }
-
-            public void unknown() {
-                bot.send(from.get(), "No te entiendo.");
-            }
-        };
-    }
-
+    
 }
