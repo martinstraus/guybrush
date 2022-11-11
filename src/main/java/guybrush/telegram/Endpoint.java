@@ -24,15 +24,12 @@ public class Endpoint {
     
     private static final Logger LOGGER = Logger.getLogger(Endpoint.class.getName());
     
-    private final Bot bot;
     private final Updates updates;
     private final ObjectMapper objectMapper;
     private final NaturalLanguageProcessor nlp;
     private final CommandContext commandContext;
     
-    public Endpoint(Bot bot, Updates updates, ObjectMapper objectMapper, NaturalLanguageProcessor nlp,
-        CommandContext commandContext) {
-        this.bot = bot;
+    public Endpoint(Updates updates, ObjectMapper objectMapper, NaturalLanguageProcessor nlp, CommandContext commandContext) {
         this.updates = updates;
         this.objectMapper = objectMapper;
         this.nlp = nlp;
