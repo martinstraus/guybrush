@@ -1,4 +1,7 @@
-addgroup guybrush
-useradd --system --shell /bin/false -g guybrush guybrush
-systemctl enable /opt/guybrush/guybrush.service
-systemctl start guybrush
+service=guybrush
+
+addgroup ${service}
+useradd --system --shell /bin/false -g ${service} ${service}
+systemctl enable /opt/${service}/${service}.service
+systemctl start ${service}
+ln -s /etc/nginx/sites-available/${service} /etc/nginx/sites-enabled/${service}

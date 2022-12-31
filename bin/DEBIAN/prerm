@@ -5,3 +5,5 @@ if [ "$?" = "0" ]; then
     systemctl stop ${service}
     systemctl disable ${service}
 fi
+
+rm /etc/nginx/sites-enabled/${service}

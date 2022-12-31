@@ -1,1 +1,2 @@
 /etc/guybrush/application.properties
+/etc/nginx/sites-available/guybrush
