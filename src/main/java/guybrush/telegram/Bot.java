@@ -41,6 +41,15 @@ public class Bot {
             LOGGER.info("No reminders for today");
         }
     }
+    
+    public void queryActiveReminders() {
+        var allReminders = this.reminders.all();
+        if (!allReminders.isEmpty()) {
+            telegram.send(username, messages(allReminders));
+        } else {
+            telegram.send(username, "No hay recordatorios registrados.");
+        }
+    }
 
     private String messages(Set<Reminder> reminders) {
         return reminders.stream().map(Reminder::message).collect(joining("\n"));

@@ -18,6 +18,7 @@ public class DateReminders implements RemindersSource {
     private static final String SELECT_FOR_TODAY = "select *"
             + " from date_reminders"
             + " where (date is null and day_in_month = ?) or (date = ? and day_in_month is null)";
+    private static final String SELECT_ALL = "select * from date_reminders";
     private final DataSource dataSource;
 
     public DateReminders(DataSource dataSource) {
@@ -34,6 +35,11 @@ public class DateReminders implements RemindersSource {
                 today.getDayOfMonth(),
                 today
         );
+    }
+
+    @Override
+    public Set<Reminder> all() {
+        return Queries.selectSet(dataSource, SELECT_ALL, this::transformOne);
     }
 
     private MonthlyReminder transformOne(ResultSet resultSet) {

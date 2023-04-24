@@ -9,4 +9,6 @@ import java.util.Set;
 public interface Reminders {
     
     Set<Reminder> forToday();
+    
+    Set<Reminder> all();
 }

@@ -24,4 +24,9 @@ public class CompositeReminders implements Reminders {
         return union(Reductions.toSet(reminders, RemindersSource::forToday));
     }
 
+    @Override
+    public Set<Reminder> all() {
+        return union(Reductions.toSet(reminders, RemindersSource::all));
+    }
+
 }

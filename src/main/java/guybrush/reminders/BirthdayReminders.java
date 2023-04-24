@@ -12,12 +12,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BirthdayReminders implements RemindersSource {
+
     private final Contacts contacts;
 
     public BirthdayReminders(Contacts contacts) {
         this.contacts = contacts;
     }
-    
+
     @Override
     public Set<Reminder> forToday() {
         return contacts
@@ -26,5 +27,10 @@ public class BirthdayReminders implements RemindersSource {
                 .map((contact) -> new BirthdayReminder(contact))
                 .collect(toSet());
     }
-    
+
+    @Override
+    public Set<Reminder> all() {
+        return contacts.all().stream().map(BirthdayReminder::new).collect(toSet());
+    }
+
 }

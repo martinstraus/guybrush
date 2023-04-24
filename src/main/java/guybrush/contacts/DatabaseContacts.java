@@ -32,6 +32,15 @@ public class DatabaseContacts implements Contacts {
         );
     }
 
+    @Override
+    public Set<Contact> all() {
+        return Queries.selectSet(
+                datasource,
+                "select * from contacts",
+                this::transformOne
+        );
+    }
+
     private Contact transformOne(ResultSet resultSet) {
         try {
             return new SimpleContact(resultSet.getString("name"));

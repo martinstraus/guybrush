@@ -11,4 +11,6 @@ public interface Contacts {
 
     Set<Contact> bornOn(LocalDate date);
     
+    Set<Contact> all();
+    
 }
