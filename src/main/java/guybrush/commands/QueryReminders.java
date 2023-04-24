@@ -11,7 +11,7 @@ public class QueryReminders implements Command {
 
     @Override
     public void execute(CommandContext context, Optional<User> from) {
-        context.bot().dailyEvent();
+        context.bot().queryActiveReminders();
     }
 
     
