@@ -30,7 +30,7 @@ public class BirthdayReminders implements RemindersSource {
 
     @Override
     public Set<Reminder> all() {
-        return contacts.all().stream().map(BirthdayReminder::new).collect(toSet());
+        return contacts.all().stream().map(BirthdayReminderDisplay::new).collect(toSet());
     }
 
 }
