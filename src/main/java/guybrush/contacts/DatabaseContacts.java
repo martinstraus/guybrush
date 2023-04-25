@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatabaseContacts implements Contacts {
 
-    private static final DateTimeFormatter MONTH_DAY_FORMAT = DateTimeFormatter.ofPattern("dd/MM");
+    private static final DateTimeFormatter MONTH_DAY_FORMAT = DateTimeFormatter.ofPattern("MM/dd");
     private final DataSource datasource;
 
     public DatabaseContacts(DataSource datasource) {
