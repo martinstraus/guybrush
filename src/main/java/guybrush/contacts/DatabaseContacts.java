@@ -4,6 +4,7 @@ import guybrush.db.Queries;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.MonthDay;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import javax.sql.DataSource;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatabaseContacts implements Contacts {
 
+    private static final DateTimeFormatter MONTH_DAY_FORMAT = DateTimeFormatter.ofPattern("dd/MM");
     private final DataSource datasource;
 
     public DatabaseContacts(DataSource datasource) {
@@ -43,7 +45,10 @@ public class DatabaseContacts implements Contacts {
 
     private Contact transformOne(ResultSet resultSet) {
         try {
-            return new SimpleContact(resultSet.getString("name"));
+            return new SimpleContact(
+                    resultSet.getString("name"),
+                    MonthDay.parse(resultSet.getString("birthday"), MONTH_DAY_FORMAT)
+            );
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
