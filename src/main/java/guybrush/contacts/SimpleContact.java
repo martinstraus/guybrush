@@ -1,5 +1,6 @@
 package guybrush.contacts;
 
+import java.time.LocalDate;
 import java.time.MonthDay;
 
 /**
@@ -24,6 +25,11 @@ public class SimpleContact implements Contact {
     @Override
     public MonthDay birthday() {
         return birthday;
+    }
+
+    @Override
+    public boolean isBirthday(LocalDate date) {
+        return birthday.getDayOfMonth() == date.getDayOfMonth() && birthday.getMonth() == date.getMonth();
     }
 
 }

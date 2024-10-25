@@ -1,5 +1,6 @@
 package guybrush.contacts;
 
+import java.time.LocalDate;
 import java.time.MonthDay;
 
 /**
@@ -11,4 +12,6 @@ public interface Contact {
     String name();
     
     MonthDay birthday();
+    
+    boolean isBirthday(LocalDate date);
 }

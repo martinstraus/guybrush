@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import guybrush.commands.CommandContext;
 import guybrush.nlp.*;
 import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,29 +22,21 @@ public class Endpoint {
     
     private static final Logger LOGGER = Logger.getLogger(Endpoint.class.getName());
     
-    private final Updates updates;
     private final ObjectMapper objectMapper;
     private final NaturalLanguageProcessor nlp;
     private final CommandContext commandContext;
     
-    public Endpoint(Updates updates, ObjectMapper objectMapper, NaturalLanguageProcessor nlp, CommandContext commandContext) {
-        this.updates = updates;
+    public Endpoint(ObjectMapper objectMapper, NaturalLanguageProcessor nlp, CommandContext commandContext) {
         this.objectMapper = objectMapper;
         this.nlp = nlp;
         this.commandContext = commandContext;
     }
     
-    @Transactional
     @PostMapping("/updates")
     public void update(@RequestBody String payload) throws JsonProcessingException {
         var update = objectMapper.readValue(payload, Update.class);
         if (update.getMessage() == null) {
             return;
-        }
-        try {
-            updates.store(update.getUpdate_id(), payload);
-        } catch (Throwable t) {
-            LOGGER.log(Level.SEVERE, String.format("Could not store update %1$d.", update.getUpdate_id()), t);
         }
         update.getMessage().process(messageCallback());
     }

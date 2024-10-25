@@ -12,12 +12,11 @@ import org.springframework.stereotype.Component;
  *
  * @author Martín Straus <martinstraus@gmail.com>
  */
-@Component
 public class DateReminders implements RemindersSource {
 
     private static final String SELECT_FOR_TODAY = "select *"
-            + " from date_reminders"
-            + " where (date is null and day_in_month = ?) or (date = ? and day_in_month is null)";
+        + " from date_reminders"
+        + " where (date is null and day_in_month = ?) or (date = ? and day_in_month is null)";
     private static final String SELECT_ALL = "select * from date_reminders";
     private final DataSource dataSource;
 
@@ -29,11 +28,11 @@ public class DateReminders implements RemindersSource {
     public Set<Reminder> forToday() {
         var today = LocalDate.now();
         return Queries.selectSet(
-                dataSource,
-                SELECT_FOR_TODAY,
-                this::transformOne,
-                today.getDayOfMonth(),
-                today
+            dataSource,
+            SELECT_FOR_TODAY,
+            this::transformOne,
+            today.getDayOfMonth(),
+            today
         );
     }
 
@@ -44,7 +43,10 @@ public class DateReminders implements RemindersSource {
 
     private MonthlyReminder transformOne(ResultSet resultSet) {
         try {
-            return new MonthlyReminder(resultSet.getString("message"));
+            return new MonthlyReminder(
+                resultSet.getInt("day_in_month"),
+                resultSet.getString("message")
+            );
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }

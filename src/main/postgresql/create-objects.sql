@@ -1,7 +1,7 @@
 create table contacts (
   id smallint NOT NULL,
-  name character varchar(100),
-  birthday character varchar(5), -- format: dd/mm
+  name varchar(100),
+  birthday varchar(5), -- format: dd/mm
   CONSTRAINT contacts_pkey PRIMARY KEY (id)
 );
 

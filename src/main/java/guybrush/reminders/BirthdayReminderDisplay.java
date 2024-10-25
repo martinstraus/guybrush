@@ -1,6 +1,7 @@
 package guybrush.reminders;
 
 import guybrush.contacts.Contact;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -19,6 +20,11 @@ public class BirthdayReminderDisplay implements Reminder {
     @Override
     public String message() {
         return String.format("%1$s cumple años el dia %2$s", contact.name(), MONTH_DAY_FORMATTER.format(contact.birthday()));
+    }
+
+    @Override
+    public boolean isForDate(LocalDate date) {
+        return true;
     }
     
 }
